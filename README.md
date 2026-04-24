@@ -1,6 +1,10 @@
 # Kinova-Octo Hybrid
 
-Real-robot finetuning and deployment of **Octo** on a Kinova manipulator for goal-image-conditioned bottle pick-and-lift.
+## What is Octo?
+
+[Octo](https://octo-models.github.io/) is an open-source generalist robot policy for manipulation, sometimes described as a robot foundation model or vision-language-action policy. It is pretrained on large-scale robot demonstration data ([OpenX Embodiment](https://robotics-transformer-x.github.io/)) and is designed to support flexible task definitions, observations, and action spaces. Octo can be conditioned on language instructions or goal images and can be finetuned to new robot setups with relatively small in-domain datasets.
+
+In this repository, **Octo** is used in goal-image-conditioned mode and finetuned on Kinova manipulator demonstrations for bottle pick-and-lift.
 
 This repository contains a practical research-engineering pipeline for adapting Octo to a Kinova robot using a hybrid action design:
 
@@ -209,6 +213,18 @@ python scripts/dataset/print_episode_dir.py
 
 ---
 
+## Dataset Availability
+
+The full Kinova demonstration dataset is not included here.
+
+A dataset/sample-data download link will be added here:
+
+> **Dataset / sample data:** Coming soon
+
+The expected raw data format is documented in [docs/DATASET.md](docs/DATASET.md).
+
+---
+
 ## Octo Standardization Function
 
 The training and evaluation scripts expect the Kinova standardization function to be importable from the Octo package path:
@@ -326,7 +342,7 @@ Use `--crop_json_path` and `--goal_crop_json_path` to save/reuse deployment crop
 
 During data collection, the RealSense camera captured a wide view of the workspace, including other robots and background objects. The training episodes were cropped to focus on the active Kinova arm, tabletop workspace, and target object. For this reason, the live deployment script includes `--startup_crop_review`, `--crop_json_path`, and `--goal_crop_json_path` so the inference-time camera input can be aligned with the visual distribution used during training.
 
-See `docs/DATASET.md` for details on the cropping workflow.
+See [docs/DATASET.md](docs/DATASET.md) for details on the cropping workflow.
 
 ---
 
@@ -359,6 +375,15 @@ Current scope:
 - Multi-robot support would mainly require robot-specific data collection and deployment wrappers; the current release provides the Kinova implementation.
 - Dataset collection scripts will be added in a future update. The data collection pipeline used for this project was scripted and partially automated.
 - The current deployed policy can exhibit some delay after reaching the bottle before closing the gripper. This behavior is visible in some rollouts and remains an open deployment-timing improvement.
+
+## Future Work
+
+Planned next steps include:
+
+- adding the scripted/partially automated Kinova data collection pipeline used to collect the demonstrations;
+- improving deployment timing, especially the short delay observed after the robot reaches the bottle before closing the gripper;
+- finetuning Octo on a longer-horizon Kinova manipulation task beyond single bottle pick-and-lift;
+- extending the deployment layer to support additional robot arms through robot-specific wrappers.
 
 ---
 
