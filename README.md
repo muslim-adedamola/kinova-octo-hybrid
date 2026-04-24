@@ -13,6 +13,13 @@ This repository contains a practical research-engineering pipeline for adapting 
 
 > Status: research prototype validated on a Kinova robot.
 
+## Demo
+
+https://github.com/user-attachments/assets/5599fbc7-ce52-4e97-856b-1d25c4c96401
+
+
+> Real-robot rollout shown at 2× speed.
+
 ---
 
 ## Overview
@@ -362,6 +369,8 @@ Current scope:
 - Unseen bottle-color rollouts are successful qualitative demonstrations; a larger quantitative generalization benchmark is left for future work.
 - Real-robot deployment currently assumes a Kinova arm, Kinova Kortex API, and Intel RealSense RGB input.
 - Multi-robot support would mainly require robot-specific data collection and deployment wrappers; the current release provides the Kinova implementation.
+- Dataset collection scripts will be added in a future update. The data collection pipeline used for this project was scripted and partially automated.
+- The current deployed policy can exhibit some delay after reaching the bottle before closing the gripper. This behavior is visible in some rollouts and remains an open deployment-timing improvement.
 
 ---
 
