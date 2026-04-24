@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+venv/
+env/
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
+# Large files / datasets
+data/*
+!data/.gitkeep
+checkpoints/*
+!checkpoints/.gitkeep
+*.ckpt
+*.pkl
+*.npy
+*.npz
+*.tfrecord
+*.tfrecord-*
+*.h5
+
+# TensorFlow datasets / logs
+tensorflow_datasets/
+tfds/
+wandb/
+runs/
+logs/
+
+# Videos - keep only selected demo assets
+*.avi
+*.mov
+
+# RealSense / robot logs
+*.bag
+*.log
