@@ -32,26 +32,14 @@ The current implementation is Kinova-specific at the deployment layer because it
 
 ## Real-Robot Demos
 
-Demo videos can be found in:
-
-```text
-assets/demos/
-├── demo1.mp4
-├── demo2.mp4
-├── demo3.mp4
-├── demo4.mp4
-├── demo5.mp4
-└── demo6.mp4
-```
-
 | Demo | Description |
 |---|---|
-| demo1 | In-distribution white-bottle rollout using the object type seen during training |
-| demo2 | White-bottle rollout from a different initial object position |
-| demo3 | Additional white-bottle rollout |
-| demo4 | Qualitative appearance-generalization test on an unseen bottle color |
-| demo5 | Additional qualitative rollout |
-| demo6 | Qualitative appearance-generalization test on an unseen bottle color |
+| [White bottle rollout](assets/demos/demo1.mp4) | In-distribution bottle used during training |
+| [White bottle, new position](assets/demos/demo2.mp4) | Same bottle type, different initial position |
+| [Additional white-bottle rollout](assets/demos/demo3.mp4) | Additional in-distribution rollout |
+| [Pink bottle generalization](assets/demos/demo4.mp4) | Unseen bottle color |
+| [Pink bottle, new position](assets/demos/demo5.mp4) | Unseen bottle color and different position |
+| [Black bottle generalization](assets/demos/demo6.mp4) | Unseen bottle color and different position |
 
 The policy was trained only on the white bottle, so unseen bottle-color rollouts should be interpreted as qualitative generalization tests.
 
