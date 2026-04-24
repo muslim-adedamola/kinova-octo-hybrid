@@ -348,13 +348,17 @@ Cropped image used for training/inference:
 assets/images/cropped_training_view.png
 ```
 
-View Sample of raw and cropped images here:
+## Example Camera Views
 
-```markdown
+View sample raw and cropped images below.
+
+**Raw camera view during data collection**
+
 ![Raw camera view](../assets/images/raw_camera_view.png)
 
+**Cropped image used for training and inference**
+
 ![Cropped training view](../assets/images/cropped_view.png)
-```
 
 ---
 
