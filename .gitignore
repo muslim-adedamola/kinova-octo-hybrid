@@ -40,3 +40,6 @@ logs/
 # RealSense / robot logs
 *.bag
 *.log
+
+# Debug
+scripts/deployment/run_finetuned_hybrid_model_v1.py

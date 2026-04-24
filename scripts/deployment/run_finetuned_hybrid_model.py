@@ -28,9 +28,7 @@ from kortex_api.autogen.messages import Base_pb2
 from utilities import DeviceConnection
 
 
-# -----------------------------------------------------------------------------
 # Hybrid BCE gripper head
-# -----------------------------------------------------------------------------
 class BinaryGripperHead(nn.Module):
     action_horizon: int
     hidden_dim: int = 256
@@ -45,9 +43,7 @@ class BinaryGripperHead(nn.Module):
         return logits
 
 
-# -----------------------------------------------------------------------------
 # Live camera reader
-# -----------------------------------------------------------------------------
 class RealSenseLatestRGB:
     def __init__(self, width=640, height=480, fps=30):
         self.width = width
@@ -113,9 +109,7 @@ class RealSenseLatestRGB:
             pass
 
 
-# -----------------------------------------------------------------------------
 # Crop helpers
-# -----------------------------------------------------------------------------
 def crop_bgr_image(image_bgr, crop_box):
     x_min, y_min, x_max, y_max = crop_box
     h, w = image_bgr.shape[:2]
@@ -288,9 +282,7 @@ def startup_crop_review_loop(camera, initial_crop_box=None, crop_json_path=None)
             raise KeyboardInterrupt("User quit during crop review.")
 
 
-# -----------------------------------------------------------------------------
 # Image preprocessing
-# -----------------------------------------------------------------------------
 def preprocess_bgr_to_rgb_256(image_bgr, crop_box=None):
     if crop_box is not None:
         image_bgr = crop_bgr_image(image_bgr, crop_box)
@@ -299,9 +291,7 @@ def preprocess_bgr_to_rgb_256(image_bgr, crop_box=None):
     return image_rgb.astype(np.uint8)
 
 
-# -----------------------------------------------------------------------------
 # Dataset statistics loading
-# -----------------------------------------------------------------------------
 def load_dataset_statistics(
     stats_json=None,
     tfds_data_dir=None,
@@ -399,9 +389,7 @@ def extract_readout_tensor(x):
     return y
 
 
-# -----------------------------------------------------------------------------
 # Task builder
-# -----------------------------------------------------------------------------
 def build_goal_only_task(goal_image_path, goal_crop_box=None):
     goal_bgr = cv2.imread(goal_image_path)
     if goal_bgr is None:
@@ -418,9 +406,7 @@ def build_goal_only_task(goal_image_path, goal_crop_box=None):
     return task
 
 
-# -----------------------------------------------------------------------------
 # Robot command helpers
-# -----------------------------------------------------------------------------
 def clamp(x, lo, hi):
     return max(lo, min(hi, x))
 
@@ -556,9 +542,8 @@ def get_burst_indices(start_idx, burst_len, horizon):
     return list(range(start_idx, end_idx))
 
 
-# -----------------------------------------------------------------------------
+
 # Gripper hysteresis / latch
-# -----------------------------------------------------------------------------
 def state_name(s):
     return "OPEN" if s == 1 else "CLOSE"
 
@@ -601,9 +586,7 @@ def wait_for_manual_step(trigger_key="n"):
             return "quit"
 
 
-# -----------------------------------------------------------------------------
 # Main
-# -----------------------------------------------------------------------------
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--checkpoint_path", type=str, required=True,
@@ -646,17 +629,8 @@ def main():
 
     parser.add_argument("--close_threshold", type=float, default=0.40)
     parser.add_argument("--open_threshold", type=float, default=0.80)
-    parser.add_argument("--close_hold_steps", type=int, default=12)
-    parser.add_argument("--reclose_hold_steps", type=int, default=8)
-
     parser.add_argument("--chatter_window", type=int, default=20)
     parser.add_argument("--chatter_transition_limit", type=int, default=3)
-
-    parser.add_argument(
-        "--lock_closed_after_first_close",
-        action="store_true",
-        help="Once the first close happens, keep the gripper closed until the run ends.",
-    )
 
     parser.add_argument(
         "--control_mode",
@@ -953,18 +927,13 @@ def main():
         total_transitions = 0
         schema_printed = False
 
-        hold_close_counter = 0
-        ever_closed_once = False
-
         controller_step = 0
 
         try:
             while True:
                 loop_start = time.time()
 
-                # -------------------------------------------------------------
                 # Fresh-frame gating
-                # -------------------------------------------------------------
                 if args.control_mode == "auto_receding_horizon":
                     image_bgr, image_t, frame_counter, got_fresh = camera.wait_for_new_frame(
                         last_frame_counter=last_frame_counter,
@@ -1057,32 +1026,19 @@ def main():
                     open_threshold=args.open_threshold,
                 )
 
+                # Final gripper command is decided directly from the selected
+                # gripper chunk probability and hysteresis band.
+                #
+                # Note:
+                # Earlier versions included close-latching / lock-closed logic.
+                # In the final deployment setting, using a later gripper chunk
+                # index (e.g., --gripper_chunk_index 3) produced reliable grasp
+                # timing, so the latch was removed to keep runtime behavior
+                # simpler and easier to interpret.
                 final_state = raw_state
                 final_reason = raw_reason
 
-                if hold_close_counter > 0:
-                    final_state = 0
-                    final_reason = f"latched_close({hold_close_counter})"
-                    hold_close_counter -= 1
-                elif last_executed_gripper_state is not None and last_executed_gripper_state == 1 and raw_state == 0:
-                    if not ever_closed_once:
-                        hold_close_counter = max(args.close_hold_steps - 1, 0)
-                        ever_closed_once = True
-                        final_reason = f"{raw_reason}+start_initial_close_latch"
-                    else:
-                        hold_close_counter = max(args.reclose_hold_steps - 1, 0)
-                        final_reason = f"{raw_reason}+start_reclose_latch"
-
-                if final_state == 0:
-                    ever_closed_once = True
-
-                if args.lock_closed_after_first_close and ever_closed_once:
-                    final_state = 0
-                    final_reason = "task_lock_closed_after_first_close"
-
-                # -------------------------------------------------------------
                 # Execute short burst of consecutive arm pulses, then stop once
-                # -------------------------------------------------------------
                 scaled_arm_last = np.zeros((6,), dtype=np.float32)
 
                 for burst_i, arm_action_6d in enumerate(arm_burst_actions_6d):
@@ -1165,7 +1121,6 @@ def main():
                     f"final={final_name}({final_reason}) "
                     f"prev={prev_name} "
                     f"transitioned={transitioned} "
-                    f"hold_close_counter={hold_close_counter} "
                     f"total_transitions={total_transitions} "
                     f"recent_transitions={recent_transitions}"
                 )
@@ -1184,7 +1139,7 @@ def main():
                     )
                     txt2 = (
                         f"g_prob={gripper_prob:.3f} raw={raw_name} final={final_name} "
-                        f"hold={hold_close_counter} trans={total_transitions}"
+                        f"trans={total_transitions}"
                     )
                     txt3 = (
                         f"pred={pred_time:.3f}s frame_age={frame_age_before_policy:.3f}s "
