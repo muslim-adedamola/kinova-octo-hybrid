@@ -336,20 +336,6 @@ In practice, the live inference crop should resemble the cropped training images
 
 ## Example Camera Views
 
-Raw camera frame during data collection:
-
-```text
-assets/images/raw_camera_view.png
-```
-
-Cropped image used for training/inference:
-
-```text
-assets/images/cropped_training_view.png
-```
-
-## Example Camera Views
-
 View sample raw and cropped images below.
 
 **Raw camera view during data collection**
