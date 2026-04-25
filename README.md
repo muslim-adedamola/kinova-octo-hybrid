@@ -243,11 +243,32 @@ python scripts/dataset/print_episode_dir.py
 
 ## Dataset Availability
 
-The full Kinova Gen 3 demonstration dataset is not included here.
+A converted TFDS/RLDS version of the Kinova bottle pick-and-lift dataset is available here (size is 936 MB):
 
-A dataset/sample-data download link will be added here:
+> **Converted TFDS/RLDS dataset:** [Download from Google Drive](https://drive.google.com/file/d/1gVG1LpR4IPke7KlWEkE2oC9X1H8BMIbQ/view?usp=sharing)
 
-> **Dataset / sample data:** Coming soon
+Expected extracted structure:
+
+```text
+kinova_dataset/
+└── default/
+    └── 0.1.5/
+```
+Just go ahead and paste this kinova_dataset/ folder into your tensorflow directory
+
+Example Usage:
+
+```bash
+python scripts/training/finetune_hybrid_octo_bce.py \
+  --tfds_data_dir /path/to/tensorflow_datasets \
+  --dataset_name kinova_dataset \
+  --dataset_config default \
+  --dataset_version 0.1.5
+```
+
+If you prefer to build the tfds/rlds version of the raw dataset demos (bottle pick and lift) yourself, The download link is here:
+
+> **Link to download Raw Dataset:** Coming soon
 
 The expected raw data format is documented in [docs/DATASET.md](docs/DATASET.md).
 
