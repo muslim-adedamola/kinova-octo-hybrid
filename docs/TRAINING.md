@@ -30,7 +30,7 @@ The Kinova action used for training has 7 dimensions:
 [dx, dy, dz, dtheta_x, dtheta_y, dtheta_z, gripper_state_bin]
 ```
 
-In this project, Octo is finetuned using RGB image observations only. No proprioceptive observations are used as model inputs. The hybrid model separates the action prediction problem into two parts.
+In this project, Octo is finetuned using RGB observations from an external scene camera only. No wrist-camera images and no proprioceptive robot-state observations are used as model inputs. The hybrid model separates the action prediction problem into two parts.
 
 ### Continuous arm action
 
