@@ -91,7 +91,7 @@ Rollout settings used:
 ## Repository Structure
 
 ```text
-kinova-octo-hybrid/
+finetune-octo-kinova-hybrid/
 ├── README.md
 ├── LICENSE
 ├── requirements.txt
@@ -142,8 +142,8 @@ This project assumes you already have a working Octo environment.
 Clone this repository:
 
 ```bash
-git clone https://github.com/muslim-adedamola/kinova-octo-hybrid.git
-cd kinova-octo-hybrid
+git clone https://github.com/muslim-adedamola/finetune-octo-kinova-hybrid.git
+cd finetune-octo-kinova-hybrid
 ```
 
 Install additional dependencies as needed:
