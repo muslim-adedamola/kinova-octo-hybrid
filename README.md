@@ -59,7 +59,13 @@ python scripts/deployment/run_finetuned_hybrid_model.py \
 
 The project finetunes a pretrained Octo model on a Kinova Gen 3 (7 DoF) demonstrations for a bottle pick-and-lift task. The training data was collected using a white bottle. Additional real-robot rollouts were tested on different white-bottle positions and unseen bottle appearances, including pink and black bottles.
 
-The current implementation is Kinova-specific at the deployment layer because it uses the Kinova Kortex API. However, the dataset, training, and hybrid action-head design can be adapted to other manipulators with robot-specific data collection and deployment wrappers.
+### Camera Setup
+
+An external Intel RealSense RGB camera observing the workspace from a third-person scene view.
+
+Only the scene camera RGB image is used as the policy observation. No wrist camera and no proprioceptive robot-state observations are used as model inputs in the released finetuning/deployment pipeline.
+
+The RealSense frame is cropped and resized to 256×256 so that the live inference input matches the cropped visual distribution used during training. The current implementation is Kinova-specific at the deployment layer because it uses the Kinova Kortex API. However, the dataset, training, and hybrid action-head design can be adapted to other manipulators with robot-specific data collection and deployment wrappers.
 
 ---
 
