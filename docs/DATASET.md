@@ -1,6 +1,22 @@
+## Downloadable Converted Dataset
+
+If you do not want to rebuild the dataset from raw episodes, a converted TFDS/RLDS dataset can be downloaded from the [link](https://github.com/muslim-adedamola/finetune-octo-kinova-hybrid#dataset-availability) in the main README.
+
+After extraction, the dataset should have this structure:
+
+```text
+kinova_dataset/
+└── default/
+    └── 0.1.5/
+```
+Just go ahead and copy the kinova_dataset/ folder into your tensorflow directory.
+
+To rebuild dataset from raw episodes, see content below.
+
+
 # Dataset Preparation
 
-This document explains how the Kinova demonstrations are organized, converted into TFDS/RLDS format, and standardized for Octo finetuning.
+This section explains how the Kinova demonstrations are organized, converted into TFDS/RLDS format, and standardized for Octo finetuning.
 
 The dataset pipeline follows this flow:
 
