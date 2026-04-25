@@ -74,8 +74,8 @@ This repository builds on Octo and expects the `octo` Python package to be impor
 Clone this repository:
 
 ```bash
-git clone https://github.com/muslim-adedamola/kinova-octo-hybrid.git
-cd kinova-octo-hybrid
+git clone https://github.com/muslim-adedamola/finetune-octo-kinova-hybrid.git
+cd finetune-octo-kinova-hybrid
 ```
 
 Install the additional dependencies:
@@ -360,7 +360,7 @@ export WANDB_MODE=offline
 After setup, the repository should contain:
 
 ```text
-kinova-octo-hybrid/
+finetune-octo-kinova-hybrid/
 ├── scripts/
 │   ├── dataset/
 │   ├── training/
