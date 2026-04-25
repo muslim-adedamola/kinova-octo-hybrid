@@ -378,7 +378,7 @@ This executes action indices:
 
 before stopping and requesting a fresh camera frame.
 
-A shorter burst can be safer and more reactive. A longer burst can look smoother but may increase the risk of executing stale actions.
+A shorter burst can be safer, slow, and more reactive. A longer burst can look smoother and faster, but may slightly increase the risk of executing stale actions. Demo video 1 uses a longer burst, which makes the motion faster than demo videos 2–6, which use a shorter burst.
 
 ---
 
