@@ -4,7 +4,7 @@
 
 [Octo](https://octo-models.github.io/) is an open-source generalist robot policy for manipulation, sometimes described as a robot foundation model or vision-language-action policy. It is pretrained on large-scale robot demonstration data ([OpenX Embodiment](https://robotics-transformer-x.github.io/)) and is designed to support flexible task definitions, observations, and action spaces. Octo can be conditioned on language instructions or goal images and can be finetuned to new robot setups with relatively small in-domain datasets.
 
-In this repository, **Octo** is used in goal-image-conditioned mode and finetuned on Kinova manipulator demonstrations for bottle pick-and-lift.
+In this repository, **Octo** is used in goal-image-conditioned mode and finetuned on a Kinova Gen3 (7 DoF) manipulator demonstrations for bottle pick-and-lift.
 
 This repository contains a practical research-engineering pipeline for adapting Octo to a Kinova robot using a hybrid action design:
 
@@ -28,7 +28,7 @@ https://github.com/user-attachments/assets/5599fbc7-ce52-4e97-856b-1d25c4c96401
 
 ## Overview
 
-The project finetunes a pretrained Octo model on Kinova demonstrations for a bottle pick-and-lift task. The training data was collected using a white bottle. Additional real-robot rollouts were tested on different white-bottle positions and unseen bottle appearances, including pink and black bottles.
+The project finetunes a pretrained Octo model on a Kinova Gen 3 (7 DoF) demonstrations for a bottle pick-and-lift task. The training data was collected using a white bottle. Additional real-robot rollouts were tested on different white-bottle positions and unseen bottle appearances, including pink and black bottles.
 
 The current implementation is Kinova-specific at the deployment layer because it uses the Kinova Kortex API. However, the dataset, training, and hybrid action-head design can be adapted to other manipulators with robot-specific data collection and deployment wrappers.
 
@@ -54,7 +54,7 @@ The policy was trained only on the white bottle, so unseen bottle-color rollouts
 The pipeline follows this flow:
 
 ```text
-Raw Kinova demonstrations
+Raw Kinova Gen 3 demonstrations
 → TFDS/RLDS dataset builder
 → Octo-compatible standardization
 → Hybrid finetuning
@@ -169,7 +169,7 @@ The Kinova deployment script requires a working Kortex API installation and acce
 
 ## Dataset Preparation
 
-The raw Kinova demonstrations are expected in this format:
+The raw Kinova Gen 3 (7 DoF) demonstrations are expected in this format:
 
 ```text
 <data_dir>/downloads/manual/kinova_dataset_2/episodes/
@@ -215,7 +215,7 @@ python scripts/dataset/print_episode_dir.py
 
 ## Dataset Availability
 
-The full Kinova demonstration dataset is not included here.
+The full Kinova Gen 3 demonstration dataset is not included here.
 
 A dataset/sample-data download link will be added here:
 
@@ -368,7 +368,7 @@ This repository is a research-engineering prototype for adapting Octo to a Kinov
 Current scope:
 
 - The current release focuses on a single real-robot task: goal-image-conditioned bottle pick-and-lift.
-- The policy was finetuned on approximately 110 task-specific Kinova demonstrations, consistent with the data-efficient finetuning setting explored by Octo.
+- The policy was finetuned on approximately 110 task-specific Kinova Gen 3 (7 DoF) demonstrations, consistent with the data-efficient finetuning setting explored by Octo.
 - Training demonstrations used a white bottle; additional rollouts on pink and black bottles are included as qualitative appearance-generalization tests.
 - Unseen bottle-color rollouts are successful qualitative demonstrations; a larger quantitative generalization benchmark is left for future work.
 - Real-robot deployment currently assumes a Kinova arm, Kinova Kortex API, and Intel RealSense RGB input.
