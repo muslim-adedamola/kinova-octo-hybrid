@@ -26,6 +26,35 @@ https://github.com/user-attachments/assets/5599fbc7-ce52-4e97-856b-1d25c4c96401
 
 ---
 
+## Pretrained Checkpoint
+
+Downloadable checkpoint as used in demo videos is made available here:
+
+> **Best checkpoint:** [Download from Google Drive](https://drive.google.com/file/d/1Eiv2iN5whw7qQazFhIcdwFJOwBmYghiL/view?usp=sharing)
+
+Expected checkpoint structure after extraction:
+
+```text
+best/
+  checkpoint_*
+```
+Example Usage:
+
+```bash
+python scripts/deployment/run_finetuned_hybrid_model.py \
+  --checkpoint_path /path/to/downloaded/best \
+  --goal_image_path /path/to/goal_image.png \
+  --tfds_data_dir /path/to/tensorflow_datasets \
+  --show_window \
+  --startup_crop_review \
+  --control_mode auto_receding_horizon \
+  --arm_chunk_index 1 \
+  --gripper_chunk_index 3
+  --execute_actions #to run on real robot. Remove to run in shadow mode
+```
+
+---
+
 ## Overview
 
 The project finetunes a pretrained Octo model on a Kinova Gen 3 (7 DoF) demonstrations for a bottle pick-and-lift task. The training data was collected using a white bottle. Additional real-robot rollouts were tested on different white-bottle positions and unseen bottle appearances, including pink and black bottles.
