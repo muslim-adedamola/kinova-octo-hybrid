@@ -1,4 +1,4 @@
-# Kinova-Octo Hybrid
+# Finetune Octo on Kinova Gen 3 (7 DoF) robot with Hybrid Arm-Gripper Control
 
 ## What is Octo?
 
@@ -93,7 +93,6 @@ Rollout settings used:
 ```text
 finetune-octo-kinova-hybrid/
 ├── README.md
-├── LICENSE
 ├── requirements.txt
 ├── .gitignore
 │
