@@ -274,9 +274,9 @@ python scripts/training/finetune_hybrid_octo_bce.py \
 
 If you prefer to build the tfds/rlds version of the raw dataset demos (bottle pick and lift) yourself, The download link is here:
 
-> **Link to download Raw Dataset:** Coming soon
+> **[Link to download Raw Dataset](https://drive.google.com/file/d/1DxAAcv0oV7qoBO6aO62Omon7kLr4Cql9/view?usp=sharing)**
 
-The expected raw data format is documented in [docs/DATASET.md](docs/DATASET.md).
+To collect similar demos on your robot, the expected raw data format used in this repo is documented in [docs/DATASET.md](docs/DATASET.md).
 
 ---
 
